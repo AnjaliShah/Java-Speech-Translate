@@ -12,7 +12,7 @@ Speech API documentation can be [found here.] (https://docs.microsofttranslator.
 
 
 ## Setup
-Java 1.7+ and Maven 3+
+Java 1.8+ and Maven 3+
 
 To install, navigate to the root directory (containing pom.xml) and execute
 
@@ -22,7 +22,7 @@ this will download the dependencies
 
 To get the list of languages
 
-java -cp target\Java-Speech-Translate-1.0.0.jar;target\dependency-jars\* GetLanguages
+java -cp target\Java-Speech-Translate-1.0.0.jar;target\dependency-jars\* Languages
 
 To stream an audio file to our speech translate service
 
@@ -34,4 +34,4 @@ The application has dependency on following external libraries, which are config
 
 [Jetty] (http://www.eclipse.org/jetty/) For lightweight websocket client api
 
-[GSON] (https://github.com/google/gson)Deserialize json response
+[GSON] (https://github.com/google/gson) For deserializing json response
