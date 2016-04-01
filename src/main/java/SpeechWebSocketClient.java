@@ -9,10 +9,10 @@ import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 
 public class SpeechWebSocketClient {
-      private static final String speechTranslateUriTemplate = "wss://dev.microsofttranslator.com/speech/translate?from=%1s&to=%2s&api-version=1.0&x-clientTraceId=%3s&access_token=%4s";
+      private static final String speechTranslateUriTemplate = "wss://dev.microsofttranslator.com/speech/translate?from=%1s&to=%2s&api-version=1.0";
 
-      private static String generateWsUrl(String from, String to, String traceId, String accessToken) {
-            return String.format(speechTranslateUriTemplate, from, to, traceId, accessToken);
+      private static String generateWsUrl(String from, String to) {
+            return String.format(speechTranslateUriTemplate, from, to);
       }
 
       public static void main(String[] args) {
@@ -33,16 +33,18 @@ public class SpeechWebSocketClient {
                   String traceId = UUID.randomUUID().toString();
 
                   ClientUpgradeRequest request = new ClientUpgradeRequest();
+                  request.setHeader("Authorization", "Bearer " + accessToken.access_token);
+                  request.setHeader("X-ClientTraceId", traceId);
                   
                   // Authorization headers does not set the right property in the
                   // server so pass the access token in url
-                  String speechTranslateUri = generateWsUrl(from, to, traceId,
-                              URLEncoder.encode(accessToken.access_token, "UTF-8"));
+                  String speechTranslateUri = generateWsUrl(from, to);
 
                   client.start();
                   URI echoUri = new URI(speechTranslateUri);
                   client.connect(socket, echoUri, request);
                   System.out.printf("[%s] Connecting to : %s%n", LocalDateTime.now().toString(), echoUri);
+                  System.out.println("ClientTraceId: " + traceId);
                   // wait enough so the server has ample time to respond
                   socket.awaitClose(30, TimeUnit.SECONDS);
             } catch (Throwable t) {
