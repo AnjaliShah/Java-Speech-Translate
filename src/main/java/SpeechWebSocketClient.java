@@ -16,15 +16,16 @@ public class SpeechWebSocketClient {
       }
 
       public static void main(String[] args) {
-			if (args.length != 3){
-				System.out.println("Input the following Parameters:\nClientId ClientSecret AudioFile");
+			if (args.length != 2){
+				System.out.println("Input the following Parameters:\nAzureSubscriptionKey AudioFile");
 				return;
 			}
 		
-			AdmAccessToken accessToken = AdmAccessToken.getAccessToken(args[0], args[1]);
+			AzureAuthToken token = new AzureAuthToken(args[0]);
+			String azureToken = token.getAccessToken();
 			SslContextFactory sslContextFactory = new SslContextFactory();
 			WebSocketClient client = new WebSocketClient(sslContextFactory);
-			String inputAudioFile = args[2];
+			String inputAudioFile = args[1];
 			SpeechTranslationSessionSocket socket = new SpeechTranslationSessionSocket(inputAudioFile);
 		  
             try {
@@ -33,11 +34,9 @@ public class SpeechWebSocketClient {
                   String traceId = UUID.randomUUID().toString();
 
                   ClientUpgradeRequest request = new ClientUpgradeRequest();
-                  request.setHeader("Authorization", "Bearer " + accessToken.access_token);
+                  request.setHeader("Authorization", "Bearer " + azureToken);
                   request.setHeader("X-ClientTraceId", traceId);
                   
-                  // Authorization headers does not set the right property in the
-                  // server so pass the access token in url
                   String speechTranslateUri = generateWsUrl(from, to);
 
                   client.start();
