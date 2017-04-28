@@ -26,7 +26,7 @@ java -cp target\Java-Speech-Translate-1.0.0.jar;target\dependency-jars\* Languag
 
 To stream an audio file to our speech translate service
 
-java -cp target\Java-Speech-Translate-1.0.0.jar;target\dependency-jars\* SpeechWebSocketClient [ClientId] [ClientSecret] [AudioFile]
+java -cp target\Java-Speech-Translate-1.0.0.jar;target\dependency-jars\* SpeechWebSocketClient [AzureSubscriptionKey] [AudioFile]
 
 
 ## Dependencies
