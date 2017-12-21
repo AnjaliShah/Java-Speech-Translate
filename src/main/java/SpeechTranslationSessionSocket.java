@@ -14,7 +14,7 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 //Websocket client that communicates with speech/translate api 
 @WebSocket
 public class SpeechTranslationSessionSocket {
-      private final byte[] silenceBytes = new byte[32000];
+      private final byte[] silenceBytes = new byte[3200];
       private final CountDownLatch closeLatch;
 
       private String inputAudioFileName;
@@ -60,7 +60,7 @@ public class SpeechTranslationSessionSocket {
       private void sendData(Session session, String fileName) {
             try {
                   try (FileInputStream fi = new FileInputStream(new File(fileName))) {
-                        byte[] buffer = new byte[32000];
+                        byte[] buffer = new byte[3200];
                         int counter = 0;
                         System.out.printf("[%s] Sending Bytes: ", LocalDateTime.now().toString());
                         while ((counter = fi.read(buffer, 0, buffer.length)) != -1) {
